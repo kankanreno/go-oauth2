@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/go-oauth2/oauth2/v4"
-	"github.com/go-oauth2/oauth2/v4/errors"
-	"github.com/go-oauth2/oauth2/v4/generates"
-	"github.com/go-oauth2/oauth2/v4/models"
+	"github.com/kankanreno/go-oauth2/v4"
+	"github.com/kankanreno/go-oauth2/v4/errors"
+	"github.com/kankanreno/go-oauth2/v4/generates"
+	"github.com/kankanreno/go-oauth2/v4/models"
 )
 
 // NewDefaultManager create to default authorization management instance
@@ -131,7 +131,7 @@ func (m *Manager) MustTokenStorage(stor oauth2.TokenStore, err error) {
 
 // GetClient get the client information
 func (m *Manager) GetClient(ctx context.Context, clientID string) (cli oauth2.ClientInfo, err error) {
-	cli, err = m.clientStore.GetByID(ctx, clientID)
+	cli, err = m.clientStore.Get(ctx, clientID)
 	if err != nil {
 		return
 	} else if cli == nil {
