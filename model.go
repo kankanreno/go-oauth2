@@ -10,8 +10,8 @@ type (
 		GetID() string
 		GetSecret() string
 		GetDomain() string
+		GetScopes() string
 		IsPublic() bool
-		GetUserID() string
 	}
 
 	// ClientPasswordVerifier the password handler interface

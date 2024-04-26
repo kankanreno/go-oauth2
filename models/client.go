@@ -5,8 +5,8 @@ type Client struct {
 	ID     string
 	Secret string
 	Domain string
+	Scopes string
 	Public bool
-	UserID string
 }
 
 // GetID client id
@@ -24,12 +24,12 @@ func (c *Client) GetDomain() string {
 	return c.Domain
 }
 
+// GetScopes client scopes
+func (c *Client) GetScopes() string {
+	return c.Scopes
+}
+
 // IsPublic public
 func (c *Client) IsPublic() bool {
 	return c.Public
-}
-
-// GetUserID user id
-func (c *Client) GetUserID() string {
-	return c.UserID
 }
