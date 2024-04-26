@@ -40,3 +40,12 @@ func (cs *ClientStore) Set(id string, cli oauth2.ClientInfo) (err error) {
 	cs.data[id] = cli
 	return
 }
+
+// Delete delete client information
+func (cs *ClientStore) Delete(id string) (err error) {
+	cs.Lock()
+	defer cs.Unlock()
+
+	delete(cs.data, id)
+	return
+}
