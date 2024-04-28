@@ -20,5 +20,8 @@ func TestClientStore(t *testing.T) {
 		cli, err := clientStore.Get(context.Background(), "1")
 		So(err, ShouldBeNil)
 		So(cli.GetID(), ShouldEqual, "1")
+
+		err = clientStore.Delete("1")
+		So(err, ShouldBeNil)
 	})
 }
