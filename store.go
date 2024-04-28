@@ -15,13 +15,13 @@ type (
 		Create(ctx context.Context, info TokenInfo) error
 
 		// delete the authorization code
-		RemoveByCode(ctx context.Context, code string) error
+		DeleteByCode(ctx context.Context, code string) error
 
 		// use the access token to delete the token information
-		RemoveByAccess(ctx context.Context, access string) error
+		DeleteByAccess(ctx context.Context, access string) error
 
 		// use the refresh token to delete the token information
-		RemoveByRefresh(ctx context.Context, refresh string) error
+		DeleteByRefresh(ctx context.Context, refresh string) error
 
 		// use the authorization code for token information data
 		GetByCode(ctx context.Context, code string) (TokenInfo, error)

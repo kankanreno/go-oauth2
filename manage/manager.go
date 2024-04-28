@@ -233,7 +233,7 @@ func (m *Manager) getAuthorizationCode(ctx context.Context, code string) (oauth2
 
 // delete authorization code data
 func (m *Manager) delAuthorizationCode(ctx context.Context, code string) error {
-	return m.tokenStore.RemoveByCode(ctx, code)
+	return m.tokenStore.DeleteByCode(ctx, code)
 }
 
 // get and delete authorization code data
@@ -422,14 +422,14 @@ func (m *Manager) RefreshAccessToken(ctx context.Context, tgr *oauth2.TokenGener
 
 	if rcfg.IsRemoveAccess {
 		// remove the old access token
-		if err := m.tokenStore.RemoveByAccess(ctx, oldAccess); err != nil {
+		if err := m.tokenStore.DeleteByAccess(ctx, oldAccess); err != nil {
 			return nil, err
 		}
 	}
 
 	if rcfg.IsRemoveRefreshing && rv != "" {
 		// remove the old refresh token
-		if err := m.tokenStore.RemoveByRefresh(ctx, oldRefresh); err != nil {
+		if err := m.tokenStore.DeleteByRefresh(ctx, oldRefresh); err != nil {
 			return nil, err
 		}
 	}
@@ -448,7 +448,7 @@ func (m *Manager) RemoveAccessToken(ctx context.Context, access string) error {
 	if access == "" {
 		return errors.ErrInvalidAccessToken
 	}
-	return m.tokenStore.RemoveByAccess(ctx, access)
+	return m.tokenStore.DeleteByAccess(ctx, access)
 }
 
 // RemoveRefreshToken use the refresh token to delete the token information
@@ -456,7 +456,7 @@ func (m *Manager) RemoveRefreshToken(ctx context.Context, refresh string) error 
 	if refresh == "" {
 		return errors.ErrInvalidAccessToken
 	}
-	return m.tokenStore.RemoveByRefresh(ctx, refresh)
+	return m.tokenStore.DeleteByRefresh(ctx, refresh)
 }
 
 // LoadAccessToken according to the access token for corresponding token information

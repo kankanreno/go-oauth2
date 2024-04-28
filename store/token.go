@@ -70,7 +70,7 @@ func (ts *TokenStore) Create(ctx context.Context, info oauth2.TokenInfo) error {
 }
 
 // remove key
-func (ts *TokenStore) remove(key string) error {
+func (ts *TokenStore) delete(key string) error {
 	err := ts.db.Update(func(tx *buntdb.Tx) error {
 		_, err := tx.Delete(key)
 		return err
@@ -81,19 +81,19 @@ func (ts *TokenStore) remove(key string) error {
 	return err
 }
 
-// RemoveByCode use the authorization code to delete the token information
-func (ts *TokenStore) RemoveByCode(ctx context.Context, code string) error {
-	return ts.remove(code)
+// DeleteByCode use the authorization code to delete the token information
+func (ts *TokenStore) DeleteByCode(ctx context.Context, code string) error {
+	return ts.delete(code)
 }
 
-// RemoveByAccess use the access token to delete the token information
-func (ts *TokenStore) RemoveByAccess(ctx context.Context, access string) error {
-	return ts.remove(access)
+// DeleteByAccess use the access token to delete the token information
+func (ts *TokenStore) DeleteByAccess(ctx context.Context, access string) error {
+	return ts.delete(access)
 }
 
-// RemoveByRefresh use the refresh token to delete the token information
-func (ts *TokenStore) RemoveByRefresh(ctx context.Context, refresh string) error {
-	return ts.remove(refresh)
+// DeleteByRefresh use the refresh token to delete the token information
+func (ts *TokenStore) DeleteByRefresh(ctx context.Context, refresh string) error {
+	return ts.delete(refresh)
 }
 
 func (ts *TokenStore) getData(key string) (oauth2.TokenInfo, error) {
