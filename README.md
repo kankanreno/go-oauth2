@@ -40,6 +40,7 @@ go get -u -v github.com/kankanreno/go-oauth2/v4/...
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 
@@ -56,13 +57,12 @@ func main() {
 	manager.MustTokenStorage(store.NewMemoryTokenStore())
 
 	// client memory store
-	clientStore := store.NewClientStore()
-	clientStore.Set("000000", &models.Client{
+	manager.MapClientStorage(store.NewClientStore())
+	manager.AddClient(context.Background(), "000000", &models.Client{
 		ID:     "000000",
 		Secret: "999999",
 		Domain: "http://localhost",
 	})
-	manager.MapClientStorage(clientStore)
 
 	srv := server.NewDefaultServer(manager)
 	srv.SetAllowGetAccessRequest(true)

@@ -1,12 +1,15 @@
 package oauth2
 
-import "context"
+import (
+	"context"
+)
 
 type (
 	// ClientStore the client information storage interface
 	ClientStore interface {
-		// according to the ID for the client information
+		Add(ctx context.Context, id string, client ClientInfo) error
 		Get(ctx context.Context, id string) (ClientInfo, error)
+		Delete(ctx context.Context, id string) error
 	}
 
 	// TokenStore the token information storage interface

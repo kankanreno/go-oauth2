@@ -21,12 +21,26 @@ func TestManager(t *testing.T) {
 		manager.MustTokenStorage(store.NewMemoryTokenStore())
 
 		clientStore := store.NewClientStore()
-		_ = clientStore.Set("1", &models.Client{
+		//_ = clientStore.Add(context.Background(), "1", &models.Client{
+		//	ID:     "1",
+		//	Secret: "11",
+		//	Domain: "http://localhost",
+		//})
+		manager.MapClientStorage(clientStore)
+
+		manager.AddClient(ctx, "1", &models.Client{
 			ID:     "1",
 			Secret: "11",
 			Domain: "http://localhost",
 		})
-		manager.MapClientStorage(clientStore)
+
+		//manager.DeleteClient(ctx, "1")
+
+		Convey("GetClient test", func() {
+			cli, err := manager.GetClient(ctx, "1")
+			So(err, ShouldBeNil)
+			So(cli.GetSecret(), ShouldEqual, "11")
+		})
 
 		tgr := &oauth2.TokenGenerateRequest{
 			ClientID:    "1",
@@ -34,12 +48,6 @@ func TestManager(t *testing.T) {
 			RedirectURI: "http://localhost/oauth2",
 			Scope:       "all",
 		}
-
-		Convey("GetClient test", func() {
-			cli, err := manager.GetClient(ctx, "1")
-			So(err, ShouldBeNil)
-			So(cli.GetSecret(), ShouldEqual, "11")
-		})
 
 		Convey("Token test", func() {
 			testManager(tgr, manager)

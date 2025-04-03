@@ -54,13 +54,13 @@ func main() {
 	// manager.MapAccessGenerate(generates.NewJWTAccessGenerate("", []byte("00000000"), jwt.SigningMethodHS512))
 	manager.MapAccessGenerate(generates.NewAccessGenerate())
 
-	clientStore := store.NewClientStore()
-	clientStore.Set(idvar, &models.Client{
+	// client store
+	manager.MapClientStorage(store.NewClientStore())
+	manager.AddClient(context.Background(), idvar, &models.Client{
 		ID:     idvar,
 		Secret: secretvar,
 		Domain: domainvar,
 	})
-	manager.MapClientStorage(clientStore)
 
 	srv := server.NewServer(server.NewConfig(), manager)
 

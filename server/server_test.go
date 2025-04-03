@@ -44,7 +44,7 @@ func clientStore(domain string, public bool) oauth2.ClientStore {
 	} else {
 		secret = clientSecret
 	}
-	clientStore.Set(clientID, &models.Client{
+	clientStore.Add(context.Background(), clientID, &models.Client{
 		ID:     clientID,
 		Secret: secret,
 		Domain: domain,

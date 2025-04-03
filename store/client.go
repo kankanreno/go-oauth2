@@ -21,6 +21,15 @@ type ClientStore struct {
 	data map[string]oauth2.ClientInfo
 }
 
+// Add add client information
+func (cs *ClientStore) Add(ctx context.Context, id string, cli oauth2.ClientInfo) error {
+	cs.Lock()
+	defer cs.Unlock()
+
+	cs.data[id] = cli
+	return nil
+}
+
 // Get according to the ID for the client information
 func (cs *ClientStore) Get(ctx context.Context, id string) (oauth2.ClientInfo, error) {
 	cs.RLock()
@@ -32,20 +41,11 @@ func (cs *ClientStore) Get(ctx context.Context, id string) (oauth2.ClientInfo, e
 	return nil, errors.New("not found")
 }
 
-// Set set client information
-func (cs *ClientStore) Set(id string, cli oauth2.ClientInfo) (err error) {
-	cs.Lock()
-	defer cs.Unlock()
-
-	cs.data[id] = cli
-	return
-}
-
 // Delete delete client information
-func (cs *ClientStore) Delete(id string) (err error) {
+func (cs *ClientStore) Delete(ctx context.Context, id string) error {
 	cs.Lock()
 	defer cs.Unlock()
 
 	delete(cs.data, id)
-	return
+	return nil
 }

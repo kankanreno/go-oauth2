@@ -129,15 +129,24 @@ func (m *Manager) MustTokenStorage(stor oauth2.TokenStore, err error) {
 	m.tokenStore = stor
 }
 
+// AddClient add the client
+func (m *Manager) AddClient(ctx context.Context, clientID string, client oauth2.ClientInfo) error {
+	m.clientStore.Add(ctx, clientID, client)
+	return nil
+}
+
 // GetClient get the client information
-func (m *Manager) GetClient(ctx context.Context, clientID string) (cli oauth2.ClientInfo, err error) {
-	cli, err = m.clientStore.Get(ctx, clientID)
+func (m *Manager) GetClient(ctx context.Context, clientID string) (oauth2.ClientInfo, error) {
+	cli, err := m.clientStore.Get(ctx, clientID)
 	if err != nil {
-		return
-	} else if cli == nil {
-		err = errors.ErrInvalidClient
+		return nil, err
 	}
-	return
+	return cli, nil
+}
+
+// DeleteClient delete the client
+func (m *Manager) DeleteClient(ctx context.Context, clientID string) error {
+	return m.clientStore.Delete(ctx, clientID)
 }
 
 // GenerateAuthToken generate the authorization token(code)
