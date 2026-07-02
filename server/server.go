@@ -283,7 +283,7 @@ func (s *Server) HandleAuthorizeRequest(w http.ResponseWriter, r *http.Request) 
 	if fn := s.AuthorizeScopeHandler; fn != nil {
 		scope, err := fn(w, r)
 		if err != nil {
-			return err
+			return s.handleError(w, req, err)
 		} else if scope != "" {
 			req.Scope = scope
 		}
